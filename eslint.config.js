@@ -7,37 +7,43 @@ import { defineConfig, globalIgnores } from 'eslint/config'
 import jsxA11y from 'eslint-plugin-jsx-a11y'
 import simpleImportSort from 'eslint-plugin-simple-import-sort'
 import checkFile from 'eslint-plugin-check-file'
-
-import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 import vitest from 'eslint-plugin-vitest'
+
+import { FlatCompat } from '@eslint/eslintrc'
+import path from 'path'
+import { fileURLToPath } from 'url'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+const compat = new FlatCompat({ baseDirectory: __dirname })
 
 export default defineConfig([
   globalIgnores(['dist']),
+
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
+  jsxA11y.flatConfigs.recommended,
+
   {
+    files: ['**/*.{ts,tsx}'],
+
     plugins: {
       'simple-import-sort': simpleImportSort,
       'check-file': checkFile,
-      vitest: vitest,
+      'react-hooks': reactHooks,
+      'react-refresh': reactRefresh,
     },
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      js.configs.recommended,
-      tseslint.configs.recommended,
-      reactHooks.configs['recommended-latest'],
-      reactRefresh.configs.vite,
-      jsxA11y.flatConfigs.recommended,
-    ],
+
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
       globals: globals.browser,
     },
+
     rules: {
-      // --- Import Sorting ---
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
 
-      // --- Naming Conventions ---
       'check-file/filename-naming-convention': [
         'error',
         { '**/*.{ts,tsx}': 'KEBAB_CASE' },
@@ -47,17 +53,17 @@ export default defineConfig([
         'error',
         { 'src/**/!(__tests__)': 'KEBAB_CASE' },
       ],
+
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
+      'react-refresh/only-export-components': 'warn',
     },
   },
 
-  // Vitest-specific rules for test files
   {
-    files: ['**/*.test.{ts,tsx}'], // Apply only to test files
+    files: ['**/*.test.{ts,tsx}'],
     ...vitest.configs.recommended,
-    rules: {
-      // any specific test rule overrides
-    },
   },
 
-  eslintPluginPrettierRecommended,
+  ...compat.extends('plugin:prettier/recommended'),
 ])
