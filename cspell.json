@@ -1,0 +1,18 @@
+{
+  "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
+  "version": "0.2",
+  "language": "en",
+  "words": [
+    "vite",
+    "oklch",
+    "tailwindcss",
+    "clsx",
+    "lucide",
+    "shadcn",
+    "tseslint",
+    "vitest",
+    "commitlint",
+    "kebabcase"
+  ],
+  "ignorePaths": ["node_modules/", "dist/", "package-lock.json", ".git/"]
+}
