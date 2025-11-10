@@ -1,20 +1,17 @@
 {
-  // Tell the editor to use Prettier for these files
   "[javascript][javascriptreact][typescript][typescriptreact][json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
 
-  // Format on save
   "editor.formatOnSave": true,
 
-  // Run ESLint to auto-fix on save
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
 
-  // Treat all .css files as Tailwind files for better tooling
   "files.associations": {
     "*.css": "tailwindcss"
   },
+
   "cSpell.words": ["vite"]
 }
